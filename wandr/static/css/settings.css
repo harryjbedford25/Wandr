@@ -1,0 +1,165 @@
+.settings-body {
+  min-height: 100vh;
+}
+
+.settings-shell {
+  min-height: 100vh;
+}
+
+.brand-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.settings-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.25rem 2.5rem;
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.settings-hero {
+  margin-bottom: 1.25rem;
+}
+
+.settings-hero h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.settings-hero p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--gray);
+  line-height: 1.45;
+}
+
+.settings-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--shadow);
+}
+
+.settings-card h3 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+
+.settings-row.toggle-row > span:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-row strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.settings-row small {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+  color: var(--gray);
+  font-weight: 400;
+}
+
+.settings-row .settings-toggle {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.settings-row .toggle-ui {
+  flex-shrink: 0;
+}
+
+.settings-field {
+  display: block;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.settings-field:last-child {
+  border-bottom: none;
+}
+
+.settings-field strong {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.settings-field small {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-bottom: 0.4rem;
+}
+
+.settings-field select {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--black);
+  font-family: var(--font);
+  font-size: 0.88rem;
+}
+
+.settings-note {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--gray);
+  line-height: 1.45;
+}
+
+.settings-card-danger {
+  border-color: var(--danger-border);
+}
+
+.btn-danger {
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+  width: 100%;
+}
+
+.btn-danger:hover {
+  background: var(--danger-soft);
+}
+
+.settings-saved {
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--orange);
+  text-align: center;
+}

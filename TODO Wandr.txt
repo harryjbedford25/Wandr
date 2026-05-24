@@ -1,0 +1,13 @@
+Let users remove their pins (sign ins??)
+
+Give admin access to me when singed in
+- deletion of pins etc
+- controls over database
+
+Add search bar?
+Fix dark theme colours
+Logo correct everywhere*?
+Setup git
+change scroll bar colour for darkmode
+maximum zoom on map
+train line starting bug
