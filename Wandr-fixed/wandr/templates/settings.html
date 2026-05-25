@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — Wandr</title>
+  <script src="{{ url_for('static', filename='js/settings-store.js') }}"></script>
+  <script>WandrSettings.applyEarly();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}" />
+</head>
+<body class="settings-body">
+  <div class="app-shell settings-shell">
+    <header class="header">
+      <a href="/" class="brand brand-link">
+        <span class="brand-mark">W</span>
+        <h1>Wandr</h1>
+      </a>
+      <div class="header-actions">
+        <a href="/" class="btn btn-ghost btn-sm">← Map</a>
+      </div>
+    </header>
+
+    <main class="settings-main">
+      <div class="settings-hero">
+        <h2>Settings</h2>
+        <p>Tune Wandr for how you travel. Everything saves on this device.</p>
+      </div>
+
+      <section class="settings-card">
+        <h3>Appearance</h3>
+        <label class="settings-row toggle-row">
+          <span>
+            <strong>Dark mode</strong>
+            <small>Easier on the eyes at night</small>
+          </span>
+          <input type="checkbox" id="set-dark-mode" class="settings-toggle" />
+          <span class="toggle-ui"></span>
+        </label>
+        <label class="settings-row toggle-row">
+          <span>
+            <strong>Reduce motion</strong>
+            <small>Shorter animations and transitions</small>
+          </span>
+          <input type="checkbox" id="set-reduce-motion" class="settings-toggle" />
+          <span class="toggle-ui"></span>
+        </label>
+      </section>
+
+      <section class="settings-card">
+        <h3>Map & pins</h3>
+        <label class="settings-row toggle-row">
+          <span>
+            <strong>Show community pins</strong>
+            <small>Visible when you open the map</small>
+          </span>
+          <input type="checkbox" id="set-community-pins" class="settings-toggle" />
+          <span class="toggle-ui"></span>
+        </label>
+        <label class="settings-field">
+          <span>
+            <strong>Train speed estimate</strong>
+            <small>For the travel radius circle</small>
+          </span>
+          <select id="set-train-speed">
+            <option value="60">Regional (~60 km/h)</option>
+            <option value="80">Standard (~80 km/h)</option>
+            <option value="120">High-speed (~120 km/h)</option>
+          </select>
+        </label>
+        <label class="settings-field">
+          <span>
+            <strong>Distance units</strong>
+          </span>
+          <select id="set-distance-unit">
+            <option value="km">Kilometres</option>
+            <option value="mi">Miles</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="settings-card">
+        <h3>Reviews</h3>
+        <label class="settings-row toggle-row">
+          <span>
+            <strong>Anonymous by default</strong>
+            <small>When leaving a new review</small>
+          </span>
+          <input type="checkbox" id="set-anonymous" class="settings-toggle" />
+          <span class="toggle-ui"></span>
+        </label>
+      </section>
+
+      <section class="settings-card settings-card-danger">
+        <h3>Data on this device</h3>
+        <p class="settings-note">Clears visited/bucket-list countries and your lasso area. Pins on the server are not deleted.</p>
+        <button type="button" id="btn-clear-local" class="btn btn-ghost btn-danger">Clear local map data</button>
+        <p class="settings-saved" id="settings-saved" hidden>Saved ✓</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/settings-page.js') }}"></script>
+</body>
+</html>

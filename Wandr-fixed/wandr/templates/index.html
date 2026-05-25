@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wandr — honest travel pins</title>
+  <script src="{{ url_for('static', filename='js/settings-store.js') }}"></script>
+  <script>WandrSettings.applyEarly();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+</head>
+<body>
+
+
+<div class="app-shell">
+  <header class="header">
+    <div class="brand">
+      <img src="{{ url_for('static', filename='logo.png') }}"class="brand-logo">
+        <h1>Wandr</h1>
+      </div>
+      <div class="header-actions">
+        <a href="/settings" class="btn btn-ghost btn-sm btn-icon" title="Settings" aria-label="Settings">⚙</a>
+        <button type="button" id="btn-locate" class="btn btn-ghost btn-sm" title="Near me" aria-label="Near me">📍</button>
+        <button type="button" id="btn-drop-mode" class="btn btn-primary btn-sm">+ Pin</button>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <aside class="sidebar minimal" id="sidebar">
+        <section class="photo-card" id="photo-of-day">
+          <button type="button" class="photo-btn" id="btn-photo-day" hidden>
+            <img class="photo-thumb" id="photo-thumb" alt="" />
+            <span class="photo-text">
+              <small>Photo of the day</small>
+              <strong id="photo-title"></strong>
+            </span>
+          </button>
+          <p class="photo-empty" id="photo-empty">No community photos yet — add one with your pin!</p>
+        </section>
+
+        <section class="sidebar-overlays">
+          <p class="overlays-label">Map overlays</p>
+          <label class="toggle-row compact"><input type="checkbox" id="layer-trains" checked /><span class="toggle-ui"></span><span>Trains</span></label>
+          <label class="toggle-row compact"><input type="checkbox" id="layer-interrail" /><span class="toggle-ui"></span><span>Interrail routes</span></label>
+          <label class="toggle-row compact"><input type="checkbox" id="layer-stations" /><span class="toggle-ui"></span><span>Stations in view</span></label>
+          <label class="toggle-row compact"><input type="checkbox" id="layer-heatmap" /><span class="toggle-ui"></span><span>Budget heatmap</span></label>
+          <label class="toggle-row compact"><input type="checkbox" id="layer-countries" /><span class="toggle-ui"></span><span>Countries</span></label>
+        </section>
+      </aside>
+
+      <div class="map-wrap">
+        <div id="map"></div>
+        <div class="map-hint" id="map-hint" hidden>Tap the map to place your pin</div>
+
+        <div class="glass-map-tools">
+          <button type="button" id="btn-lasso-region" class="glass-chip" title="Draw a region on the map">
+            <span class="glass-chip-icon">◠</span> Area
+          </button>
+          <button type="button" id="btn-clear-region" class="glass-chip glass-chip-muted" hidden>Clear area</button>
+          <button type="button" id="btn-tools" class="glass-chip" aria-expanded="false" aria-controls="tools-panel">
+            <span class="glass-chip-icon">✦</span> Tools
+          </button>
+        </div>
+
+        <div class="glass-tools-panel" id="tools-panel" hidden>
+          <label class="toggle-row compact">
+            <input type="checkbox" id="layer-travel-radius" />
+            <span class="toggle-ui"></span><span>Travel radius</span>
+          </label>
+          <div id="travel-radius-controls" hidden>
+            <p class="panel-hint">Drag the orange marker on the map.</p>
+            <label class="slider-label">
+              Hours by train
+              <input type="range" id="travel-hours" min="1" max="12" value="4" />
+              <output id="travel-hours-out">4 h</output>
+            </label>
+            <p class="panel-hint panel-hint-speed">Speed set in <a href="/settings">Settings</a>.</p>
+          </div>
+          <label class="compact-label">
+            Budget filter
+            <select id="route-filter">
+              <option value="all">All pins</option>
+              <option value="budget">$–$$ only</option>
+            </select>
+          </label>
+          <p class="panel-hint">Countries: enable overlay in sidebar, then click a country.</p>
+          <div id="country-summary-tools" class="country-summary"></div>
+        </div>
+
+        <div class="glass-pins-drawer" id="pins-drawer">
+          <button type="button" class="glass-pins-trigger" id="pins-drawer-trigger" aria-expanded="false">
+            <span class="pins-trigger-label">0 pins</span>
+            <span class="pins-trigger-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="glass-pins-panel" id="pins-drawer-panel">
+            <div class="pins-drawer-toolbar">
+              <p class="region-status" id="region-status">Everywhere</p>
+              <button type="button" id="btn-toggle-community" class="text-btn">Hide pins</button>
+            </div>
+            <div class="pins-drawer-view" id="pins-list-view">
+              <ul class="pin-list" id="pin-list"></ul>
+            </div>
+            <div class="pins-drawer-view" id="pins-detail-view" hidden>
+              <button type="button" class="back-link" id="btn-back-list">← All pins</button>
+              <div id="pin-detail"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-legend-stack" id="map-legend">
+          <div class="map-legend map-legend-glass" id="legend-pins">
+            <div class="legend-type-dots" id="legend-type-dots" role="group" aria-label="Pin types"></div>
+          </div>
+          <div class="map-legend map-legend-glass" id="legend-interrail" hidden>
+            <span class="interrail-swatch"></span> Interrail
+          </div>
+          <div class="map-legend map-legend-glass" id="legend-heatmap" hidden>
+            <span class="legend-bar"></span> Budget
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <dialog class="modal" id="modal-country">
+    <form method="dialog" id="form-country">
+      <h2 id="country-modal-name">Country</h2>
+      <div class="country-modal-actions">
+        <button type="button" class="btn btn-ghost" data-status="">Clear</button>
+        <button type="button" class="btn btn-primary" data-status="visited">Visited</button>
+        <button type="button" class="btn btn-primary" data-status="wanted">Bucket list</button>
+      </div>
+      <button type="button" class="btn btn-ghost" id="btn-close-country">Close</button>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="modal-new-pin">
+    <form id="form-new-pin" method="dialog" enctype="multipart/form-data">
+      <h2>Drop a pin</h2>
+      <label>Place name <input type="text" name="title" required maxlength="120" /></label>
+      <label>Type
+        <select name="placeType">
+          <option value="spot">Spot</option>
+          <option value="hostel">Hostel</option>
+          <option value="hotel">Hotel</option>
+          <option value="food">Food</option>
+          <option value="transport">Station area</option>
+          <option value="view">Viewpoint</option>
+        </select>
+      </label>
+      <label class="file-label">
+        Photo <span class="optional">(optional)</span>
+        <input type="file" name="photo" accept="image/png,image/jpeg,image/webp,image/gif" />
+        <img id="photo-preview" class="photo-preview" hidden alt="Preview" />
+      </label>
+      <input type="hidden" name="lat" />
+      <input type="hidden" name="lng" />
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="btn-cancel-pin">Cancel</button>
+        <button type="submit" class="btn btn-primary">Post pin</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="modal-review">
+    <form id="form-review" method="dialog">
+      <h2>Leave a review</h2>
+      <p class="modal-sub" id="review-pin-title"></p>
+      <fieldset class="rating-field">
+        <legend>Rating</legend>
+        <div class="star-row" id="star-picker">
+          <button type="button" data-rating="1">★</button>
+          <button type="button" data-rating="2">★</button>
+          <button type="button" data-rating="3">★</button>
+          <button type="button" data-rating="4">★</button>
+          <button type="button" data-rating="5">★</button>
+        </div>
+        <input type="hidden" name="rating" required />
+      </fieldset>
+      <fieldset class="price-field">
+        <legend>Price</legend>
+        <div class="price-row">
+          <label><input type="radio" name="priceTier" value="1" required /><span>$</span></label>
+          <label><input type="radio" name="priceTier" value="2" /><span>$$</span></label>
+          <label><input type="radio" name="priceTier" value="3" /><span>$$$</span></label>
+        </div>
+      </fieldset>
+      <label>Review <textarea name="body" required maxlength="500" rows="3"></textarea></label>
+      <label class="toggle-row compact">
+        <input type="checkbox" name="isAnonymous" id="review-anonymous" checked />
+        <span class="toggle-ui"></span><span>Anonymous</span>
+      </label>
+      <label id="display-name-wrap" hidden>Display name <input type="text" name="displayName" maxlength="24" /></label>
+      <input type="hidden" name="pinId" />
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="btn-cancel-review">Cancel</button>
+        <button type="submit" class="btn btn-primary">Post</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="{{ url_for('static', filename='js/countries.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/lasso.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
