@@ -1,0 +1,249 @@
+# Wandr
+
+UPDATE WHEN COMPLETE
+---
+
+# 1. BUG FIXES
+
+## ~~Merge Conflicts (RESOLVED)~~
+- ~~styles.css: primary colour conflict resolved (kept HEAD: oklch green)~~
+- ~~styles.css: dark accent conflict resolved~~
+- ~~__root.tsx: title/og:title conflict resolved (kept HEAD branding)~~
+- ~~index.tsx: hero copy conflict resolved (kept HEAD: "Real Pins, Real People, Real Memories")~~
+- ~~db.ts: admin_users and admin_sessions tables conflict resolved (kept HEAD)~~
+- ~~routeTree.gen.ts: all conflicts resolved (kept HEAD: admin routes included)~~
+
+## Public Transport Dropdown
+### Fix layout issues
+- Improve spacing and alignment
+- Make dropdown easier to scan
+- Ensure consistency across devices
+
+### Add transport toggles
+- Toggle visibility of:
+  - train lines (overlay system) ✓ already implemented
+  - bus routes ✓ already implemented
+  - airports (not yet)
+  - bus stops ✓ already implemented
+  - train stations (not yet; metro implemented)
+
+### Improve layer logic
+- Prevent overlapping or duplicated markers
+- Ensure toggles update map instantly
+- Fix any lag when switching layers
+
+---
+
+# 2. UI / UX IMPROVEMENTS
+
+## ~~Dark Mode System~~
+- ~~Implement full black/white theme~~ ✓ done
+- ~~Add optional accent colour system~~ ✓ accent kept from light theme
+- ~~Store user preference locally~~ ✓ persisted to localStorage
+- ~~Flash-of-wrong-theme prevention script~~ ✓ done
+- ~~Toggle button in SiteHeader (Moon/Sun icon)~~ ✓ done
+
+---
+
+## Pin System Enhancements
+- Add ability to attach photos to pins
+- Improve pin visual hierarchy
+- Add category-based colour coding
+
+### Categories (example)
+- food
+- nightlife
+- sightseeing
+- transport
+- hidden gems
+- stays
+
+---
+
+## Sidebar (Live Context System)
+### Make sidebar dynamic based on user activity
+
+- When viewing pins:
+  - show reviews
+  - show photos
+  - show related places
+
+- When viewing routes:
+  - show stations
+  - show travel times
+  - show nearby suggestions
+
+- When browsing map:
+  - show trending / nearby pins
+
+---
+
+# 3. BACKEND ARCHITECTURE
+
+## Core Data Systems
+
+### Users System
+- user accounts
+- authentication
+- saved places/routes
+- IMPORTANT (only start when sufficient credits)
+---
+
+### Pins System
+- location storage
+- categories
+- images
+- ratings/reviews linking
+
+---
+
+### Reviews System
+- structured review format
+- user-linked content
+- moderation support
+
+---
+
+### Routes System
+- route storage
+- planned journeys
+- linked transport data
+
+---
+
+### Admin System
+- IMPORTANT (Only start when sufficient credits to complete and debug)
+- `/admin` dashboard
+- moderation tools:
+  - approve/remove pins
+  - review moderation
+  - user management
+- NOTE: DB tables (admin_users, admin_sessions) already created in db.ts ✓
+
+---
+
+## Key Architecture Rule
+- Design data models BEFORE building UI features
+- Ensure all systems are reusable and scalable and modular
+
+---
+
+# 4. NEW FEATURES
+
+## Route Drawing System (Map-Based Planning)
+
+### Core functionality
+- user draws route directly on map
+- system detects:
+  - nearby pins
+  - stations
+  - points of interest
+
+### Smart suggestions
+- suggest places within adjustable radius
+- highlight interesting stops along route
+
+### Integration
+- must connect with:
+  - pins system
+  - transport system
+  - reviews system
+
+---
+
+## Real Travel Radius System
+
+### Replace simple distance logic with:
+- weighted shortest path routing
+- transport speed data
+- transfer times
+
+### Output
+- reachable areas based on time, not distance
+- dynamic travel boundaries
+
+---
+
+## Photography System
+
+### Features
+- upload photos to pins
+- community gallery
+- "photo of the week"
+
+### Homepage integration
+- rotating featured image replaces landing hero
+
+---
+
+## Budget Heatmap
+
+### Data sources
+- pins
+- reviews
+- user data (optional later)
+- google maps api????
+
+### Output
+- visual map heat layers:
+  - low cost zones
+  - high cost zones
+
+---
+
+# 5. DEPLOYMENT / EXPANSION
+
+## Deployment Setup
+- purchase domain
+- configure hosting
+- deploy frontend + backend
+- connect database
+
+---
+
+## Production Stability
+- ensure error handling
+- logging system
+- rollback capability
+- performance optimisation
+
+---
+
+# DEVELOPMENT RULES (IMPORTANT)
+
+## Dependency Order
+Always build in this order:
+1. backend/data structure
+2. API logic
+3. frontend integration
+4. UI polish
+5. optimisation
+
+---
+
+IF UNSURE ON UI/UX ask me, I will provide an image, moodboard, or more information on my vision. 
+
+## Feature Building Rule
+For every new feature:
+- break into small components
+- build incrementally
+- test each stage before continuing
+
+---
+
+## Long-Term Scalability Rule
+If something:
+- simplifies future features
+- reduces duplication
+- improves architecture
+
+→ prioritise it even if slower initially
+
+---
+
+## Core Goal
+Build a scalable travel platform where:
+- map interactions feel instant
+- data is structured and reusable
+- UI adapts to user behaviour
+- features connect cleanly instead of existing in isolation

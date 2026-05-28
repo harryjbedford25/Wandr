@@ -1,0 +1,32 @@
+Let users remove their pins (sign ins??)
+
+Give admin access to me when singed in
+- deletion of pins etc
+- controls over database
+
+
+Fix dark theme colours
+Logo correct everywhere*?
+-add different logos for each theme
+
+
+maximum zoom on map
+train line starting bug
+-on by default but does not show up until toggles once
+
+
+Settings page theme
+- when in lightmode, settings page in darkmode
+
+add banannas as unit of measurment in settings
+
+better settings icon
+
+FIX IMAGES!!!!!
+------------------------------
+Cleaner, more minimalistic black and white, Times new roman design, with pictures.
+
+
+
+
+
